@@ -1,0 +1,16 @@
+.button {
+    padding: 1em;
+    border: none;
+    cursor: pointer;
+    border-radius: 0.5rem;
+    box-shadow: rgb(57 21 5) 0px 3px 1px, inset 0px -8px 30px #563213;
+}
+
+.primary {
+    background-color: var(--primary-color);  
+    color: var(--white-color); 
+}
+
+.primary:hover {
+    background-color: var(--primary-hover-color);
+}
