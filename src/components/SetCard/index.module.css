@@ -70,7 +70,7 @@
 .cards {
     position: relative;
     aspect-ratio: 3/2;
-    margin-top: 5rem;
+    margin-top: 4rem;
     cursor: pointer;
     background: var(--tertiary-color);
 }

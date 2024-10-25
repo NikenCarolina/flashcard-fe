@@ -1,6 +1,6 @@
 const setsPageContent = {
   title: "Flashcard Sets",
-  newSet: "+ New Set",
+  newSet: "New Set",
 };
 
 export default setsPageContent;

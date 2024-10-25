@@ -3,7 +3,7 @@ import { ComponentProps } from "react";
 import style from "./index.module.css";
 
 interface ButtonProps extends ComponentProps<"button"> {
-  variant?: "primary";
+  variant?: "primary" | "delete" | "yellow";
   children: React.ReactNode;
 }
 
@@ -12,9 +12,13 @@ const Button: React.FC<ButtonProps> = ({
   children,
   ...rest
 }) => {
-  const buttonClassName = toClassNames(style.button, style[`${variant}`]);
+  const buttonClassName = toClassNames(
+    style.button,
+    style[`${variant}`],
+    rest.className
+  );
   return (
-    <button className={buttonClassName} {...rest}>
+    <button {...rest} className={buttonClassName}>
       {children}
     </button>
   );
