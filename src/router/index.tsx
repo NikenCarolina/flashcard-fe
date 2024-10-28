@@ -3,6 +3,7 @@ import SetsPage from "../pages/sets";
 import UserLayout from "@/layouts/UserLayout";
 import { createBrowserRouter } from "react-router-dom";
 import CardsPage from "@/pages/cards";
+import LessonPage from "@/pages/lesson";
 
 const router = createBrowserRouter([
   {
@@ -16,6 +17,10 @@ const router = createBrowserRouter([
       {
         path: routes.setsById(),
         element: <CardsPage />,
+      },
+      {
+        path: routes.lesson,
+        element: <LessonPage />,
       },
     ],
   },

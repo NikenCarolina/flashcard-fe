@@ -34,3 +34,23 @@
 .yellow:hover {
     background-color: rgba(194 179 136 / 50%);
 }
+
+.green {
+    background-color: #34a50a;
+    box-shadow: rgb(20 76 34) 0px 3px 1px, inset 0px -8px 30px #169d6c;
+    color: var(--white-color);
+}
+
+.green:hover {
+    background-color: #56dd24;
+}
+
+.red {
+    background-color: #bf2828;
+    box-shadow: rgb(119 5 5) 0px 3px 1px, inset 0px -8px 30px #a5140d;
+    color: var(--white-color);
+}
+
+.red:hover {
+    background-color: #ea5959;
+}

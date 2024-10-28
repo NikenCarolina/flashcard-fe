@@ -3,7 +3,7 @@ import { ComponentProps } from "react";
 import style from "./index.module.css";
 
 interface ButtonProps extends ComponentProps<"button"> {
-  variant?: "primary" | "delete" | "yellow";
+  variant?: "primary" | "delete" | "yellow" | "green" | "red";
   children: React.ReactNode;
 }
 

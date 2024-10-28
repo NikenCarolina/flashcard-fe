@@ -8,11 +8,15 @@ import {
 } from "@/ts/interface";
 import { ResponseError, del, get, post, put } from "@/utils";
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { cardsPageContent, commonContent } from "@/content";
 import style from "./index.module.css";
+import { useSession } from "@/hooks";
+import { routes } from "@/constants";
 
 const CardsPage = () => {
+  const navigate = useNavigate();
+  const { setHasEnded, setHasStarted, setSetId, hasStarted } = useSession();
   const [flashcards, setFlashcards] = useState<Flashcard[]>([]);
   const [flashcardsOnEdit, setFlashcardsOnEdit] = useState<Flashcard[]>([]);
   const [set, setSet] = useState<FlashcardSet>();
@@ -130,6 +134,13 @@ const CardsPage = () => {
     }
   };
 
+  const handleStartSession = () => {
+    const setId = Number(id);
+    if (isNaN(setId)) return;
+    setSetId(setId);
+    navigate(routes.lesson);
+  };
+
   if (isLoading) return <p>{commonContent.loading}</p>;
 
   return (
@@ -141,7 +152,7 @@ const CardsPage = () => {
         </div>
       </div>
       <div className={style.buttons}>
-        <Button>{commonContent.study}</Button>
+        <Button onClick={handleStartSession}>{commonContent.study}</Button>
         <Button onClick={handleCreate} disabled={isLoadingCreate}>
           {isLoadingCreate ? commonContent.loading : cardsPageContent.newCard}
         </Button>
