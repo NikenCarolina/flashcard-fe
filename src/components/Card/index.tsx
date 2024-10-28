@@ -103,9 +103,9 @@ const Card: React.FC<CardProps> = ({
         className={toClassNames(style.input, style.term_input, {
           [style.is_not_active]: !isEditing,
           [style.is_active]: isEditing,
-          [style.is_loading]: isLoading,
+          [style.is_loading]: isLoading || isDeleting,
         })}
-        disabled={isLoading}
+        disabled={isLoading || isDeleting}
         onChange={(e) => setTemp({ ...temp, term: e.target.value })}
       ></textarea>
       <textarea
@@ -117,9 +117,9 @@ const Card: React.FC<CardProps> = ({
         className={toClassNames(style.input, style.definition_input, {
           [style.is_not_active]: !isEditing,
           [style.is_active]: isEditing,
-          [style.is_loading]: isLoading,
+          [style.is_loading]: isLoading || isDeleting,
         })}
-        disabled={isLoading}
+        disabled={isLoading || isDeleting}
         onChange={(e) => setTemp({ ...temp, definition: e.target.value })}
       ></textarea>
       <div
