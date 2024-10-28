@@ -4,7 +4,7 @@ import { commonContent } from "@/content";
 import { Link } from "react-router-dom";
 import routes from "@/constants/routes";
 
-const Header = () => {
+const Header: React.FC = () => {
   return (
     <header className={style.wrapper}>
       <Link to={routes.sets}>

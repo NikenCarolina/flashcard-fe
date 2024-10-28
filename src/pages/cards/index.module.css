@@ -26,6 +26,7 @@
     flex-direction: row-reverse;
     position: sticky;
     top: 1rem;
+    z-index: 1;
 }
 
 

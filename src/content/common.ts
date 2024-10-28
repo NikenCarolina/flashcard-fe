@@ -1,4 +1,9 @@
 const commonContent = {
+  endSessionConfirmation: "Are you sure you want to end the session?",
+  review: "Result",
+  back: "Go Back",
+  incorrect: "Forgotten",
+  correct: "Remembered",
   placeholderTerm: "Type term here...",
   placeholderDefinition: "Type definition here...",
   study: "Study",
