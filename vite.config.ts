@@ -11,10 +11,4 @@ export default defineConfig({
   },
 
   plugins: [react()],
-  server: {
-    cors: {
-      origin: true,
-      credentials: true,
-    },
-  },
 });

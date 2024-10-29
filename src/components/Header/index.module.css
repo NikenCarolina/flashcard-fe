@@ -4,7 +4,6 @@
     color: var(--white-color);
     display: flex;
     justify-content: space-between;
-    align-items: center;
     padding: 1rem;
 }
 
@@ -18,41 +17,3 @@
     text-decoration: none;
 }
 
-.logout_button {
-    padding: none;
-    color: white;
-    display: flex;
-    gap: 0.5rem;
-    align-items: center;
-    padding: 0.5rem;
-    white-space: nowrap;
-}
-
-.logout_button::before {
-    content: "Log out";
-}
-
-.profile_wrapper {
-    display: flex;
-    gap: 0.5rem;
-    align-items: center;
-}
-
-@media (max-width: 600px) {
-    .profile_wrapper {
-        font-size: 0.8rem;
-    }
-
-    .logout_button {
-        gap: 0;
-    }
-
-    .logout_button::before {
-        content: "";
-    }
-
-    .wrapper h1 {
-        font-size: 1rem;
-        font-weight: 600;
-    }
-}
