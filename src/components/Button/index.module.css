@@ -54,3 +54,13 @@
 .red:hover {
     background-color: #ea5959;
 }
+
+.transparent {
+    background-color: transparent;
+    box-shadow: rgba(0 0 0 / 20%) 0px 0px 1px 1px;
+    color: rgba(0 0 0 / 50%);
+}
+
+.transparent:hover {
+    background-color: rgba(0 0 0 / 20%);
+}

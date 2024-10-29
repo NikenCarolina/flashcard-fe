@@ -7,22 +7,30 @@ import {
   FlashcardSet,
 } from "@/ts/interface";
 import { ResponseError, del, get, post, put } from "@/utils";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { cardsPageContent, commonContent } from "@/content";
 import style from "./index.module.css";
 import { useSession } from "@/hooks";
 import { routes } from "@/constants";
+import toClassNames from "@/utils/toClassNames";
+import { GoKebabHorizontal } from "react-icons/go";
 
 const CardsPage = () => {
   const navigate = useNavigate();
-  const { setHasEnded, setHasStarted, setSetId, hasStarted } = useSession();
+  const { setSetId } = useSession();
   const [flashcards, setFlashcards] = useState<Flashcard[]>([]);
   const [flashcardsOnEdit, setFlashcardsOnEdit] = useState<Flashcard[]>([]);
   const [set, setSet] = useState<FlashcardSet>();
+  const [temp, setTemp] = useState<FlashcardSet>();
+
+  const [isDeleting, setIsDeleting] = useState(false);
+  const [isEditing, setIsEditing] = useState<boolean>(false);
   const [isEditAll, setIsEditAll] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isLoadingSet, setIsLoadingSet] = useState<boolean>(false);
   const [isLoadingCreate, setIsLoadingCreate] = useState<boolean>(false);
+  const [isDropdownActive, setIsDropdownActive] = useState(false);
 
   const { id } = useParams();
 
@@ -36,6 +44,7 @@ const CardsPage = () => {
         ]);
         setFlashcards(flashcards.data);
         setSet(setById.data);
+        setTemp(setById.data);
       } catch (err) {
         if (err instanceof ResponseError) {
           console.log(err.message);
@@ -141,24 +150,198 @@ const CardsPage = () => {
     navigate(routes.lesson);
   };
 
+  const definitionRef = useRef<HTMLTextAreaElement>(null);
+  const termRef = useRef<HTMLTextAreaElement>(null);
+
+  const handleEditSet = async () => {
+    if (!isEditing) return;
+    if (set === undefined) return;
+    try {
+      setIsLoadingSet(true);
+      await put(fullUrl(endpoints.setById(set.id.toString())), temp);
+      setIsEditing(false);
+      setSet(temp);
+    } catch (err) {
+      console.log(err);
+    } finally {
+      setIsLoadingSet(false);
+    }
+  };
+
+  const handleDeleteSet = async () => {
+    if (!isDeleting) return;
+    if (set === undefined) return;
+    try {
+      setIsLoadingSet(true);
+      await del(fullUrl(endpoints.setById(set.id.toString())));
+      navigate(routes.sets);
+    } catch (err) {
+      console.log(err);
+    } finally {
+      setIsLoadingSet(false);
+    }
+  };
+
+  const handleBlur = () => {
+    setTimeout(() => {
+      setIsDropdownActive(false);
+    }, 250);
+  };
+
+  const handleInput = (ref: React.RefObject<HTMLTextAreaElement>) => {
+    if (ref != null)
+      if (ref.current != null) {
+        ref.current.style.height = "auto";
+        ref.current.style.height = `${ref.current.scrollHeight}px`;
+      }
+  };
+
+  useEffect(() => {
+    handleInput(definitionRef);
+    handleInput(termRef);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [temp]);
+
   if (isLoading) return <p>{commonContent.loading}</p>;
 
   return (
     <>
       <div className={style.set}>
         <div className={style.set_text}>
-          <h2>{set?.title}</h2>
-          <p>{set?.description}</p>
+          <textarea
+            placeholder={commonContent.placeholderTitle}
+            ref={termRef}
+            value={temp?.title}
+            onClick={() => setIsEditing(true)}
+            onInput={() => setIsEditing(true)}
+            className={toClassNames(style.input, style.title_input, {
+              [style.is_not_active]: !isEditing,
+              [style.is_active]: isEditing,
+              [style.is_loading]: isLoadingSet || isDeleting,
+            })}
+            disabled={isLoadingSet || isDeleting}
+            onChange={(e) =>
+              setTemp((prev) => {
+                if (prev !== undefined)
+                  return { ...prev, title: e.target.value };
+                else return prev;
+              })
+            }
+          ></textarea>
+          <textarea
+            placeholder={commonContent.placeholderDescription}
+            ref={definitionRef}
+            value={temp?.description}
+            onClick={() => setIsEditing(true)}
+            onInput={() => setIsEditing(true)}
+            className={toClassNames(style.input, style.description_input, {
+              [style.is_not_active]: !isEditing,
+              [style.is_active]: isEditing,
+              [style.is_loading]: isLoadingSet || isDeleting,
+            })}
+            disabled={isLoadingSet || isDeleting}
+            onChange={(e) =>
+              setTemp((prev) => {
+                if (prev !== undefined)
+                  return { ...prev, description: e.target.value };
+                else return prev;
+              })
+            }
+          ></textarea>
+
+          <div
+            className={toClassNames(style.actions, {
+              [style.actions_is_active]: isEditing,
+            })}
+          >
+            {isEditing && set !== undefined && (
+              <div className={style.edit_actions}>
+                <Button
+                  variant="transparent"
+                  className={style.button}
+                  onClick={handleEditSet}
+                  disabled={isLoading}
+                >
+                  {commonContent.edit}
+                </Button>
+                <Button
+                  variant="transparent"
+                  className={style.button}
+                  onClick={() => {
+                    setTemp({
+                      ...set,
+                      title: set.title,
+                      description: set.description,
+                    });
+                    setIsEditing(false);
+                  }}
+                  disabled={isLoading}
+                >
+                  {commonContent.cancel}
+                </Button>
+              </div>
+            )}
+
+            {isDeleting && (
+              <div className={style.delete_confirmation}>
+                <p>{commonContent.deleteSetConfirmation}</p>
+                <Button
+                  variant="transparent"
+                  className={style.button}
+                  onClick={handleDeleteSet}
+                  disabled={isLoading}
+                >
+                  {commonContent.proceed}
+                </Button>
+                <Button
+                  variant="transparent"
+                  className={style.button}
+                  onClick={() => setIsDeleting(false)}
+                  disabled={isLoading}
+                >
+                  {commonContent.cancel}
+                </Button>
+              </div>
+            )}
+
+            <div className={style.delete_action} onBlur={handleBlur}>
+              {!isDeleting && !isEditing && (
+                <Button
+                  className={toClassNames(style.button, style.kebab_button)}
+                  variant="transparent"
+                  onClick={() => setIsDropdownActive(!isDropdownActive)}
+                  disabled={isLoading}
+                >
+                  <GoKebabHorizontal size={"1rem"} />
+                </Button>
+              )}
+              {isDropdownActive && (
+                <div className={style.set_buttons}>
+                  <Button
+                    className={style.set_button}
+                    title={commonContent.delete}
+                    variant="transparent"
+                    onClick={() => setIsDeleting(true)}
+                    disabled={isLoading}
+                  >
+                    {commonContent.deleteSet}
+                  </Button>
+                </div>
+              )}
+            </div>
+          </div>
         </div>
       </div>
+
+      <hr />
       <div className={style.buttons}>
-        <Button onClick={handleStartSession}>{commonContent.study}</Button>
         <Button onClick={handleCreate} disabled={isLoadingCreate}>
           {isLoadingCreate ? commonContent.loading : cardsPageContent.newCard}
         </Button>
         <Button onClick={handleEditAll} disabled={isLoadingCreate}>
           {commonContent.editAll}
         </Button>
+        <Button onClick={handleStartSession}>{commonContent.study}</Button>
       </div>
       <div className={style.cards}>
         {flashcards.map((item) => (

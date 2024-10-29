@@ -3,14 +3,16 @@ import { endpoints, fullUrl } from "@/api";
 import { Button, SetCard } from "@/components";
 import { commonContent, setsPageContent } from "@/content";
 import { routes } from "@/constants";
-import { get, ResponseError } from "@/utils";
+import { get, post, ResponseError } from "@/utils";
 import { ApiResponse, FlashcardSet } from "@/ts/interface";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 
 const SetsPage = () => {
   const [flashcardSet, setFlashcardSet] = useState<FlashcardSet[]>([]);
-  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isLoadingCreate, setIsLoadingCreate] = useState<boolean>(false);
+  const navigate = useNavigate();
   const handleGetFlashcardSets = async () => {
     try {
       setIsLoading(true);
@@ -29,11 +31,30 @@ const SetsPage = () => {
   useEffect(() => {
     handleGetFlashcardSets();
   }, []);
+
+  const handleCreate = async () => {
+    try {
+      setIsLoadingCreate(true);
+      const res = await post<undefined, ApiResponse<FlashcardSet>>(
+        fullUrl(endpoints.sets),
+        undefined
+      );
+      navigate(routes.setsById(res.data.id.toString()));
+    } catch (err) {
+      if (err instanceof ResponseError) {
+        console.log(err.message);
+      }
+    } finally {
+      setIsLoadingCreate(false);
+    }
+  };
   return (
     <>
       <div className={style.header}>
         <h2>{setsPageContent.title}</h2>
-        <Button>{setsPageContent.newSet}</Button>
+        <Button onClick={handleCreate} disabled={isLoadingCreate}>
+          {isLoadingCreate ? commonContent.loading : setsPageContent.newSet}
+        </Button>
       </div>
 
       {!isLoading && (
