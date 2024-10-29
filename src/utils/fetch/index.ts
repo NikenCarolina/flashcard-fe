@@ -2,7 +2,10 @@ import { ResponseError } from "../customError";
 
 async function http<T>(path: string, config: RequestInit): Promise<T> {
   try {
-    const request = new Request(path, config);
+    const request = new Request(path, {
+      ...config,
+      credentials: "include" as RequestCredentials,
+    });
     const response = await fetch(request);
 
     if (!response.ok) {

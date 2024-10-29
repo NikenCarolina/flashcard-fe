@@ -6,6 +6,11 @@
     border-radius: 0.5rem;
 }
 
+.button:disabled {
+    opacity: 75%;
+    cursor: not-allowed;
+}
+
 .primary {
     background-color: var(--primary-color);  
     color: var(--white-color); 
@@ -14,6 +19,15 @@
 
 .primary:hover {
     background-color: var(--primary-hover-color);
+}
+
+.primary:disabled {
+    opacity: 75%;
+    cursor: not-allowed;
+}
+
+.primary:disabled:hover {
+    background-color: var(--primary-color);
 }
 
 .delete {
