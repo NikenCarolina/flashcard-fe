@@ -13,7 +13,7 @@ import { cardsPageContent, commonContent } from "@/content";
 import style from "./index.module.css";
 import { useSession } from "@/hooks";
 import { routes } from "@/constants";
-import toClassNames from "@/utils/toClassNames";
+import { toClassNames } from "@/utils";
 import { GoKebabHorizontal } from "react-icons/go";
 
 const CardsPage = () => {
@@ -147,6 +147,10 @@ const CardsPage = () => {
     const setId = Number(id);
     if (isNaN(setId)) return;
     setSetId(setId);
+    if (flashcards.length === 0) {
+      alert("To study there must be at least one card");
+      return;
+    }
     navigate(routes.lesson);
   };
 

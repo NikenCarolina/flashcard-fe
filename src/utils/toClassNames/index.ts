@@ -2,7 +2,7 @@ type classNameMap = {
   [key: string]: boolean;
 };
 
-const toClassNames = (
+export const toClassNames = (
   ...args: (string | classNameMap | undefined)[]
 ): string => {
   const lastArg = args[args.length - 1];
@@ -28,5 +28,3 @@ const toClassNames = (
 
   return "";
 };
-
-export default toClassNames;

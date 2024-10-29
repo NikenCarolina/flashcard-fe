@@ -1,6 +1,6 @@
 import style from "./index.module.css";
 import { useEffect, useState } from "react";
-import toClassNames from "@/utils/toClassNames";
+import { toClassNames } from "@/utils";
 import Button from "../Button";
 
 const LessonCard: React.FC<{ term: string; definition: string }> = ({
