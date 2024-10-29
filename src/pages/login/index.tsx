@@ -4,7 +4,7 @@ import { IoMdEye, IoMdEyeOff } from "react-icons/io";
 import { User } from "@/ts/interface";
 import { commonContent } from "@/content";
 import { endpoints, fullUrl } from "@/api";
-import { toClassNames,ResponseError, post } from "@/utils";
+import { toClassNames, ResponseError, post } from "@/utils";
 import { useEffect, useState } from "react";
 import { routes } from "@/constants";
 import { Link } from "react-router-dom";

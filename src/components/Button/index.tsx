@@ -1,4 +1,4 @@
-import toClassNames from "@/utils/toClassNames";
+import { toClassNames } from "@/utils";
 import { ComponentProps } from "react";
 import style from "./index.module.css";
 

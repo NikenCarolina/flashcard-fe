@@ -1,6 +1,6 @@
 import Button from "../Button";
 import style from "./index.module.css";
-import toClassNames from "@/utils/toClassNames";
+import { toClassNames } from "@/utils";
 import { GoKebabHorizontal } from "react-icons/go";
 import { commonContent } from "@/content";
 import { useEffect, useRef, useState } from "react";

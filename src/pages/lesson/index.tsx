@@ -7,7 +7,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSession } from "@/hooks";
 import { IoCloseSharp } from "react-icons/io5";
-import toClassNames from "@/utils/toClassNames";
+import { toClassNames } from "@/utils";
 
 const LessonPage = () => {
   const {
