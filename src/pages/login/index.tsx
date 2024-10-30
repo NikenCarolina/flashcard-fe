@@ -61,6 +61,7 @@ const LoginPage: React.FC = () => {
   return (
     <>
       <div className={style.app}>
+        <img src="/flashcard_app.svg" />
         <h1>{commonContent.appName}</h1>
         <h2>{commonContent.login}</h2>
       </div>

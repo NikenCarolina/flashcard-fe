@@ -3,6 +3,11 @@
     padding-top: 5rem;
 }
 
+.app img {
+    height: 2rem;
+    margin-bottom: 1rem;
+}
+
 .app h1 {
     font-size: 1.8rem;
     font-weight: 600;
