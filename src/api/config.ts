@@ -1,4 +1,7 @@
 const config: Record<string, { baseUrl: string }> = {
+  production: {
+    baseUrl: import.meta.env.VITE_BACKEND_URL,
+  },
   development: {
     baseUrl: import.meta.env.VITE_BACKEND_URL,
   },
