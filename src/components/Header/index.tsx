@@ -6,7 +6,7 @@ import { MdLogout } from "react-icons/md";
 import { ApiResponse, Profile, User } from "@/ts/interface";
 import { commonContent } from "@/content";
 import { endpoints, fullUrl } from "@/api";
-import { get } from "@/utils";
+import { get, toClassNames } from "@/utils";
 import { useEffect, useState } from "react";
 
 const Header: React.FC = () => {
@@ -49,7 +49,9 @@ const Header: React.FC = () => {
           disabled={isLoading}
           onClick={handleLogout}
           variant="transparent"
-          className={style.logout_button}
+          className={toClassNames(style.logout_button, {
+            [style.is_loading]: isLoading,
+          })}
         >
           {!isLoading ? "" : commonContent.loading}
           <MdLogout />

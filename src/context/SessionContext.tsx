@@ -1,15 +1,13 @@
 import { endpoints, fullUrl } from "@/api";
 import {
   ApiResponse,
-  EndSessionRequest,
   FlashcardProgress,
   Session,
   StartSessionRequest,
   StartSessionResponse,
 } from "@/ts/interface";
-import { post, put } from "@/utils";
+import { post } from "@/utils";
 import { createContext, useEffect, useState } from "react";
-import { SlControlStart } from "react-icons/sl";
 
 export const SessionContext = createContext<undefined | Session>(undefined);
 
@@ -44,29 +42,6 @@ export const SesssionContextProvider: React.FC<{
     };
     if (hasStarted) handleStartSession();
   }, [hasStarted, setId]);
-
-  useEffect(() => {
-    const handleEndSession = async () => {
-      if (sessionId === undefined) return;
-      if (setId === undefined) return;
-      try {
-        setIsLoading(true);
-        await put<EndSessionRequest, ApiResponse<undefined>>(
-          fullUrl(endpoints.sessionById(sessionId?.toString())),
-          {
-            session_id: sessionId,
-            flashcard_set_id: setId,
-            flashcards: sessionFlashcards,
-          }
-        );
-      } catch (err) {
-        console.log(err);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-    if (hasEnded) handleEndSession();
-  }, [hasEnded, sessionId, sessionFlashcards, setId]);
 
   console.log(hasStarted, "fetching session");
 

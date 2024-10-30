@@ -11,12 +11,9 @@ const LessonCard: React.FC<{ term: string; definition: string }> = ({
 
   const [isTransitionEnabled, setIsTransitionEnabled] = useState(true);
 
-  // Detect changes in term or definition and reset the flip state
   useEffect(() => {
     setIsFlipped(false);
-    setIsTransitionEnabled(false); // Disable transition when content changes
-
-    // Re-enable the transition after a short delay
+    setIsTransitionEnabled(false);
     const timeoutId = setTimeout(() => setIsTransitionEnabled(true), 100);
     return () => clearTimeout(timeoutId);
   }, [term, definition]);

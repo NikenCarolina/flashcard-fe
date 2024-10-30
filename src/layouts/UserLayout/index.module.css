@@ -5,7 +5,7 @@
     padding: 1rem 0;
 }
 
-@media (max-width: 1250px) {
+@media (max-width: calc(1200px + 2rem)) {
     .outlet_wrapper {
         margin:0 1rem ;
     }

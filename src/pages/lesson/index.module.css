@@ -14,6 +14,7 @@
     justify-content: center;
     align-items: center;
     padding: 1rem;
+    overflow-x: hidden;
 }
 
 .actions {
@@ -85,6 +86,7 @@
 
 .action {
     flex: 1 1 50%;
+    z-index: 1;
 }
 
 .prompt_wrapper{
@@ -99,7 +101,7 @@
 }
 
 .prompt {
-    z-index: 1;
+    z-index: 3;
     background-color: var(--white-color);
     display: flex;
     flex-direction: column;
@@ -120,6 +122,7 @@
     border: none;
     height: 100%;
     width: 100%;
+    z-index: 2;
 }
 
 .confirmation {
@@ -171,6 +174,12 @@
 
 .green {
     background-color: #288a28;
+}
+
+@media (max-width: calc( 600px + 2rem)) {
+    .prompt {
+        margin: 0 1rem ;
+    }
 }
 
 @media (max-width: 400px) {

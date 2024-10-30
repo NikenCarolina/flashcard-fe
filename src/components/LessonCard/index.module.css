@@ -19,6 +19,7 @@
     backface-visibility: hidden;
     top: 0;
     left: 0;
+    padding: 0.5rem;
 }
 
 .flip_card_back {
@@ -32,6 +33,7 @@
     transition: transform 1s ease;
     transform-style: preserve-3d;
     box-shadow: var(--secondary-color) 0px 3px 3px -1px;
+    white-space: wrap;
 }
 
 .is_flipped {
