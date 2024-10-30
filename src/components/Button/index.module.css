@@ -1,0 +1,80 @@
+.button {
+    white-space: nowrap;
+    padding: 1em;
+    border: none;
+    cursor: pointer;
+    border-radius: 0.5rem;
+}
+
+.button:disabled {
+    opacity: 75%;
+    cursor: not-allowed;
+}
+
+.primary {
+    background-color: var(--primary-color);  
+    color: var(--white-color); 
+    box-shadow: rgb(57 21 5) 0px 3px 1px, inset 0px -8px 30px #563213;
+}
+
+.primary:hover {
+    background-color: var(--primary-hover-color);
+}
+
+.primary:disabled {
+    opacity: 75%;
+    cursor: not-allowed;
+}
+
+.primary:disabled:hover {
+    background-color: var(--primary-color);
+}
+
+.delete {
+    background-color: #c90e0e;
+    box-shadow: rgb(126 13 13) 0px 3px 1px, inset 0px -8px 30px #b81313;
+    color: var(--white-color);
+}
+
+.delete:hover {
+    background-color: #ffc4c4;
+}
+
+.yellow {
+    background-color: transparent;
+    box-shadow: none;
+}
+
+.yellow:hover {
+    background-color: rgba(194 179 136 / 50%);
+}
+
+.green {
+    background-color: #34a50a;
+    box-shadow: rgb(20 76 34) 0px 3px 1px, inset 0px -8px 30px #169d6c;
+    color: var(--white-color);
+}
+
+.green:hover {
+    background-color: #56dd24;
+}
+
+.red {
+    background-color: #bf2828;
+    box-shadow: rgb(119 5 5) 0px 3px 1px, inset 0px -8px 30px #a5140d;
+    color: var(--white-color);
+}
+
+.red:hover {
+    background-color: #ea5959;
+}
+
+.transparent {
+    background-color: transparent;
+    box-shadow: rgba(0 0 0 / 20%) 0px 0px 1px 1px;
+    color: rgba(0 0 0 / 50%);
+}
+
+.transparent:hover {
+    background-color: rgba(0 0 0 / 20%);
+}
