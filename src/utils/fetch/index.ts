@@ -1,4 +1,6 @@
+import { routes } from "@/constants";
 import { ResponseError } from "../customError";
+import { endpoints, fullUrl } from "@/api";
 
 async function http<T>(path: string, config: RequestInit): Promise<T> {
   try {
@@ -7,6 +9,12 @@ async function http<T>(path: string, config: RequestInit): Promise<T> {
       credentials: "include" as RequestCredentials,
     });
     const response = await fetch(request);
+
+    if (response.status === 401) {
+      document.cookie = "isLoggedIn=;path=/";
+      await get(fullUrl(endpoints.auth.logout));
+      window.location.href = routes.auth.login;
+    }
 
     if (!response.ok) {
       const data: { message: string } = await response.json();

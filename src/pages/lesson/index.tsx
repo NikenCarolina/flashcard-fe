@@ -1,13 +1,18 @@
 import style from "./index.module.css";
 import { Button, LessonCard } from "@/components";
-import { FlashcardProgress } from "@/ts/interface";
+import {
+  ApiResponse,
+  EndSessionRequest,
+  FlashcardProgress,
+} from "@/ts/interface";
 import { commonContent } from "@/content";
 import { routes } from "@/constants";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSession } from "@/hooks";
 import { IoCloseSharp } from "react-icons/io5";
-import { toClassNames } from "@/utils";
+import { put, toClassNames } from "@/utils";
+import { endpoints, fullUrl } from "@/api";
 
 const LessonPage = () => {
   const {
@@ -19,12 +24,15 @@ const LessonPage = () => {
     hasStarted,
     hasEnded,
     setId,
+    sessionId,
   } = useSession();
   const navigate = useNavigate();
+
   const [endSessionPrompt, setEndSessionPrompt] = useState<boolean>(false);
   const [current, setCurrent] = useState<FlashcardProgress | null>(null);
   const [index, setIndex] = useState<number>(0);
   const [correct, setCorrect] = useState<number>(0);
+  const [isEndLoading, setIsEndLoading] = useState<boolean>(false);
 
   useEffect(() => {
     const handleRefresh = (e: BeforeUnloadEvent) => {
@@ -58,7 +66,7 @@ const LessonPage = () => {
       setCurrent(sessionFlashcards[index]);
   }, [index, sessionFlashcards, isLoading]);
 
-  const handleNextCard = (isCorrect: boolean) => {
+  const handleNextCard = async (isCorrect: boolean) => {
     if (isCorrect) setCorrect(correct + 1);
     setSessionFlashcards((prev) => {
       const newCard = [...prev];
@@ -66,14 +74,33 @@ const LessonPage = () => {
       return newCard;
     });
     if (index + 1 >= sessionFlashcards.length) {
-      setCurrent(null);
-      setHasEnded(true);
-      setHasStarted(false);
+      if (sessionId === undefined) return;
+      if (setId === undefined) return;
+      try {
+        setIsEndLoading(true);
+        const newCard = [...sessionFlashcards];
+        newCard[index] = { ...newCard[index], is_correct: isCorrect };
+        await put<EndSessionRequest, ApiResponse<undefined>>(
+          fullUrl(endpoints.sessionById(sessionId?.toString())),
+          {
+            session_id: sessionId,
+            flashcard_set_id: setId,
+            flashcards: newCard,
+          }
+        );
+        setHasEnded(true);
+        setHasStarted(false);
+        setCurrent(null);
+      } catch (err) {
+        console.log(err);
+      } finally {
+        setIsEndLoading(false);
+      }
     }
     setIndex(index + 1);
   };
 
-  const handleEndSession = () => {
+  const handleEndSessionPrompt = () => {
     setEndSessionPrompt(true);
   };
 
@@ -84,7 +111,7 @@ const LessonPage = () => {
         {!isLoading && hasStarted && !hasEnded && current !== null && (
           <>
             <div className={style.header}>
-              <Button onClick={handleEndSession}>
+              <Button onClick={handleEndSessionPrompt} style={{ zIndex: 1 }}>
                 <IoCloseSharp size={20} />
               </Button>
               <div
@@ -92,14 +119,19 @@ const LessonPage = () => {
                 style={
                   {
                     "--loading-width": `${
-                      (index / sessionFlashcards.length) * 100
+                      isEndLoading
+                        ? 100
+                        : (index / sessionFlashcards.length) * 100
                     }%`,
                   } as React.CSSProperties
                 }
               ></div>
               <div>
                 <p className={style.percentage}>
-                  {Math.round((index / sessionFlashcards.length) * 100)} %
+                  {isEndLoading
+                    ? 100
+                    : Math.round((index / sessionFlashcards.length) * 100)}{" "}
+                  %
                 </p>
               </div>
             </div>
@@ -110,6 +142,7 @@ const LessonPage = () => {
                   onClick={() => handleNextCard(true)}
                   className={style.action}
                   variant="green"
+                  disabled={isEndLoading}
                 >
                   {commonContent.correct}
                 </Button>
@@ -117,6 +150,7 @@ const LessonPage = () => {
                   onClick={() => handleNextCard(false)}
                   className={style.action}
                   variant="red"
+                  disabled={isEndLoading}
                 >
                   {commonContent.incorrect}
                 </Button>

@@ -32,6 +32,10 @@
     content: "Log out";
 }
 
+.is_loading::before {
+    content: "";
+}
+
 .profile_wrapper {
     display: flex;
     gap: 0.5rem;

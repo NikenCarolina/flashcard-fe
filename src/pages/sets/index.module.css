@@ -25,8 +25,8 @@
 
 @media (max-width: 1000px) {
     .card_sets {
-        --min-width:200px;
-        --columns: 3;
+        --min-width: 200px;
+        --columns: auto-fill;
     }
 }
 

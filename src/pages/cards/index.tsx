@@ -264,7 +264,7 @@ const CardsPage = () => {
                   variant="transparent"
                   className={style.button}
                   onClick={handleEditSet}
-                  disabled={isLoading}
+                  disabled={isLoading || isLoadingSet}
                 >
                   {commonContent.edit}
                 </Button>
@@ -279,7 +279,7 @@ const CardsPage = () => {
                     });
                     setIsEditing(false);
                   }}
-                  disabled={isLoading}
+                  disabled={isLoading || isLoadingSet}
                 >
                   {commonContent.cancel}
                 </Button>
@@ -293,7 +293,7 @@ const CardsPage = () => {
                   variant="transparent"
                   className={style.button}
                   onClick={handleDeleteSet}
-                  disabled={isLoading}
+                  disabled={isLoading || isLoadingSet}
                 >
                   {commonContent.proceed}
                 </Button>
@@ -301,7 +301,7 @@ const CardsPage = () => {
                   variant="transparent"
                   className={style.button}
                   onClick={() => setIsDeleting(false)}
-                  disabled={isLoading}
+                  disabled={isLoading || isLoadingSet}
                 >
                   {commonContent.cancel}
                 </Button>
@@ -314,7 +314,7 @@ const CardsPage = () => {
                   className={toClassNames(style.button, style.kebab_button)}
                   variant="transparent"
                   onClick={() => setIsDropdownActive(!isDropdownActive)}
-                  disabled={isLoading}
+                  disabled={isLoading || isLoadingSet}
                 >
                   <GoKebabHorizontal size={"1rem"} />
                 </Button>
@@ -326,7 +326,7 @@ const CardsPage = () => {
                     title={commonContent.delete}
                     variant="transparent"
                     onClick={() => setIsDeleting(true)}
-                    disabled={isLoading}
+                    disabled={isLoading || isLoadingSet}
                   >
                     {commonContent.deleteSet}
                   </Button>
@@ -339,13 +339,23 @@ const CardsPage = () => {
 
       <hr />
       <div className={style.buttons}>
-        <Button onClick={handleCreate} disabled={isLoadingCreate}>
+        <Button onClick={handleCreate} disabled={isLoadingCreate || isEditAll}>
           {isLoadingCreate ? commonContent.loading : cardsPageContent.newCard}
         </Button>
-        <Button onClick={handleEditAll} disabled={isLoadingCreate}>
+        <Button onClick={handleEditAll} disabled={isLoadingCreate || isEditAll}>
           {commonContent.editAll}
         </Button>
-        <Button onClick={handleStartSession}>{commonContent.study}</Button>
+        <Button
+          onClick={handleStartSession}
+          disabled={isLoadingCreate || flashcards.length === 0 || isEditAll}
+          title={
+            flashcards.length === 0
+              ? "Create at least one card to study"
+              : undefined
+          }
+        >
+          {commonContent.study}
+        </Button>
       </div>
       <div className={style.cards}>
         {flashcards.map((item) => (
