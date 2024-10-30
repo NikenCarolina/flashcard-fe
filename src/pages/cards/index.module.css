@@ -1,0 +1,134 @@
+.actions {
+    display: flex;
+}
+
+.set {
+    display: flex;
+    gap: 0.5rem;
+    justify-content: space-between;
+    align-items: baseline;
+}
+
+.set h2 {
+    font-size: 1.4rem;
+    font-weight: 600;
+}
+
+.buttons {
+    margin-top: 0.5rem;
+    display: flex;
+    gap: 0.5rem;
+    align-self: flex-start;
+    flex-wrap: wrap;
+    flex-direction: row-reverse;
+    position: sticky;
+    top: 1rem;
+    z-index: 1;
+}
+
+
+.title {
+    flex: auto;
+} 
+
+.cards {
+    margin-top: 1rem;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    column-gap: 1rem;
+    row-gap: 1rem;
+}
+
+.input {
+    width: 100%;
+    padding: 0;
+    border: none;
+    font: inherit;
+    font-size: 1rem;
+    resize: none;
+    height: auto;
+}
+
+.input:focus-visible {
+    outline: none;
+}
+
+.is_active, .input:hover {
+    box-shadow: rgba(0 0 0 / 20%) 0px 0px 1px 1px;
+}
+
+.title_input {
+    font-size: 1.4rem;
+    font-weight: 600;
+}
+
+.description_input {
+    margin-top: 0.5rem;
+}
+
+.is_loading {
+    color: rgba(0 0 0 / 40%);
+}
+
+.set_text {
+    width: 100%;
+}
+
+.actions {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    flex-direction: row-reverse;
+    margin-top: 0.5rem;
+    position: relative;
+    flex-grow: 1;
+}
+.actions_is_active {
+    flex-direction: row;
+}
+
+.edit_actions {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.set_buttons {
+    position: absolute;
+    text-align: right;
+    display: flex;
+    gap: 0.25rem;
+    bottom: calc(100% + 0.5rem);
+    right: 0;
+    background-color: var(--white-color);
+    display: flex;
+    flex-direction: column;
+    box-shadow: rgba(0 0 0 / 20%) 0px 0px 1px 1px;
+    padding: 0.5rem 0;
+}
+
+.set_button {
+    border-radius: 0;
+    font: inherit;
+    font-size: 0.8rem;
+    font-weight: 400;
+    box-shadow: none;
+    padding: 0.5rem;
+}
+
+.button {
+    padding: 0.5rem;
+}
+
+.kebab_button {
+    line-height: 0;
+}
+
+.delete_confirmation {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.delete_confirmation p {
+    font-size: 0.8rem;
+}
