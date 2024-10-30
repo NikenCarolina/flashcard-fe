@@ -43,8 +43,6 @@ export const SesssionContextProvider: React.FC<{
     if (hasStarted) handleStartSession();
   }, [hasStarted, setId]);
 
-  console.log(hasStarted, "fetching session");
-
   return (
     <SessionContext.Provider
       value={{
